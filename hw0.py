@@ -1,4 +1,5 @@
 import random
+import numpy as np
 def draw_samples(n):
  for _ in range(n):
     r=random.random()
@@ -10,7 +11,7 @@ def draw_samples(n):
         x=-1
     print(x)
   
- def sum_squares(N):
+def sum_squares(N):
     ans=0
     for i in N:
         ans+=i*i
