@@ -18,7 +18,7 @@ def sum_squares(N):
     ans1=np.float128(0)
     for i in N:
         ans1+=i*i
-    return ans1
+    return np.float64(ans1)
 
 def troublemakers(n):
     N=np.array([1.0,1.0],dtype=np.float64)
