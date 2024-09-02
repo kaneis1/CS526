@@ -11,13 +11,13 @@ def draw_samples(n):
         else:
             x=-1
         samples.append(x)
-    print(samples)
+    return samples
   
 def sum_squares(N):
     ans=0
     for i in N:
         ans+=i*i
-    print(ans)
+    return ans
 
 def troublemakers(n):
     N=np.array([1.0,1.0],dtype=np.float64)
@@ -26,6 +26,6 @@ def troublemakers(n):
         N[0]-=0.35*N[0]
         N[0]+=N[1]*0.2
         N[1]-=0.2*N[1]
-    print(N)
+    return N
     
     
