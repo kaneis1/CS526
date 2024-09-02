@@ -1,15 +1,17 @@
 import random
 import numpy as np
 def draw_samples(n):
- for _ in range(n):
-    r=random.random()
-    if r<=0.25:
-        x=1
-    elif r<=0.7:
-        x=0
-    else:
-        x=-1
-    print(x)
+    samples = []
+    for _ in range(n):
+        r=random.random()
+        if r<=0.25:
+            x=1
+        elif r<=0.7:
+            x=0
+        else:
+            x=-1
+        samples.append(x)
+    print(samples)
   
 def sum_squares(N):
     ans=0
