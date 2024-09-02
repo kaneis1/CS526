@@ -20,11 +20,11 @@ def sum_squares(N):
     return ans
 
 def troublemakers(n):
-    N=np.array([100000.0000000000,100000.0000000000],dtype=np.float64)
+    N=np.array([100000000.0000000000,100000000.0000000000],dtype=np.float64)
     for _ in range(n):
         
         N[1]+=0.35*N[0]
         N[0]-=0.35*N[0]
         N[0]+=N[1]*0.2
         N[1]-=0.2*N[1]
-    return N/100000.0000000000
+    return N/100000000.0000000000
