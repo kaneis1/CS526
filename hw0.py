@@ -4,6 +4,7 @@ def draw_samples(n):
     values = [1, 0, -1]
     probabilities = [0.25, 0.45, 0.30]
     samples = random.choices(values, weights=probabilities, k=n)
+    samples = np.array(samples)
     return samples
   
 def sum_squares(N):
