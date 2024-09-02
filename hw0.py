@@ -15,12 +15,12 @@ def draw_samples(n):
   
 def sum_squares(N):
     N=np.array(N,np.float64)
-    
+    ans1=0.0
     for i in N:
         i=i*i
     for i in N:
-        ans+=i    
-    return anss
+        ans1+=i    
+    return ans1
 
 def troublemakers(n):
     N=np.array([100000000.0000000000,100000000.0000000000],dtype=np.float64)
