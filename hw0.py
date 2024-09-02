@@ -1,16 +1,9 @@
 import random
 import numpy as np
 def draw_samples(n):
-    samples = []
-    for _ in range(n):
-        r=random.random()
-        if r<=0.25:
-            x=1
-        elif r<=0.7:
-            x=0
-        else:
-            x=-1
-        samples.append(x)
+    values = [1, 0, -1]
+    probabilities = [0.25, 0.45, 0.30]
+    samples = random.choices(values, weights=probabilities, k=n)
     return samples
   
 def sum_squares(N):
