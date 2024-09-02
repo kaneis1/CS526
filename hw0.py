@@ -14,8 +14,8 @@ def draw_samples(n):
     return samples
   
 def sum_squares(N):
-    N=np.array(N,np.int64)
-    ans1=0
+    N=np.array(N,np.float64)
+    ans1=np.float64(ans1)
     for i in N:
         i=i*i
     for i in N:
