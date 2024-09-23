@@ -7,56 +7,60 @@ train_path='HW1\energydata\energy_train.csv'
 val_path='HW1\energydata\energy_val.csv'
 test_path='HW1\energydata\energy_test.csv'
 
+
+def load_data():
+    train_data = pd.read_csv(train_path)
+    val_data = pd.read_csv(val_path)
+    test_data = pd.read_csv(test_path)
+    return train_data,val_data,test_data
+
+
 def split_features_target(data):
     
-    
-    X = data.drop(columns=['Appliances']).to_numpy()  
+    X = data.drop(columns=['Appliances']) 
     y = data['Appliances'].to_numpy()
     
     return X, y
 
 def preprocess_data(trainx,valx,testx):
          
-    train_data = pd.read_csv(trainx)
-    train_data['date'] = pd.to_datetime(train_data['date'], format='%m/%d/%y %H:%M')
+    trainx['date'] = pd.to_datetime(trainx['date'], format='%m/%d/%y %H:%M')
     
-    train_data['hour'] = train_data['date'].dt.hour
-    train_data['day_of_week'] = train_data['date'].dt.dayofweek
-    train_data['month'] = train_data['date'].dt.month
-    train_data = train_data.drop(columns=['date'])
+    trainx['hour'] = trainx['date'].dt.hour
+    trainx['day_of_week'] = trainx['date'].dt.dayofweek
+    trainx['month'] = trainx['date'].dt.month
+    trainx = trainx.drop(columns=['date'])
     
       
     
-    if train_data.isnull().values.any():
-        train_data = train_data.fillna(train_data.mean())  
+    if trainx.isnull().values.any():
+        trainx = trainx.fillna(trainx.mean())  
             
             
-    val_data = pd.read_csv(valx)
-    val_data['date'] = pd.to_datetime(val_data['date'], format='%m/%d/%y %H:%M')
+    valx['date'] = pd.to_datetime(valx['date'], format='%m/%d/%y %H:%M')
     
-    val_data['hour'] = val_data['date'].dt.hour
-    val_data['day_of_week'] = val_data['date'].dt.dayofweek
-    val_data['month'] = val_data['date'].dt.month
-    val_data = val_data.drop(columns=['date'])
+    valx['hour'] = valx['date'].dt.hour
+    valx['day_of_week'] = valx['date'].dt.dayofweek
+    valx['month'] = valx['date'].dt.month
+    valx = valx.drop(columns=['date'])
     
      
     
-    if val_data.isnull().values.any():
-        val_data = val_data.fillna(val_data.mean()) 
+    if valx.isnull().values.any():
+        valx = valx.fillna(valx.mean()) 
             
-    test_data = pd.read_csv(testx)
-    test_data['date'] = pd.to_datetime(test_data['date'], format='%m/%d/%y %H:%M')
+    testx['date'] = pd.to_datetime(testx['date'], format='%m/%d/%y %H:%M')
     
-    test_data['hour'] = test_data['date'].dt.hour
-    test_data['day_of_week'] = test_data['date'].dt.dayofweek
-    test_data['month'] = test_data['date'].dt.month
-    test_data = test_data.drop(columns=['date'])
+    testx['hour'] = testx['date'].dt.hour
+    testx['day_of_week'] = testx['date'].dt.dayofweek
+    testx['month'] = testx['date'].dt.month
+    testx = testx.drop(columns=['date'])
       
     
-    if test_data.isnull().values.any():
-        test_data = test_data.fillna(test_data.mean()) 
+    if testx.isnull().values.any():
+        testx = testx.fillna(testx.mean()) 
     
-    return train_data,val_data,test_data
+    return trainx.to_numpy(),valx.to_numpy(),testx.to_numpy()
 
 
 def eval_linear1(trainx, trainy, valx, valy, testx, testy):
@@ -186,11 +190,12 @@ def eval_lasso(trainx, trainy, valx, valy, testx, testy, alpha):
     return results
     
 if __name__ == '__main__':
-    train_data,val_data,test_data=preprocess_data(train_path,val_path,test_path)
+    train_data,val_data,test_data=load_data()
     
     trainx, trainy = split_features_target(train_data)
     valx, valy = split_features_target(val_data)
     testx, testy = split_features_target(test_data)
+    trainx,valx,testx=preprocess_data(trainx,valx,testx)
     
     
     results1=eval_linear1(trainx, trainy, valx, valy, testx, testy)
