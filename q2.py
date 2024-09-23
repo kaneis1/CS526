@@ -16,51 +16,29 @@ def load_data():
 
 
 def split_features_target(data):
+    data['date'] = pd.to_datetime(data['date'], format='%m/%d/%y %H:%M')
     
-    X = data.drop(columns=['Appliances']) 
+    data['hour'] = data['date'].dt.hour
+    data['day_of_week'] = data['date'].dt.dayofweek
+    data['month'] = data['date'].dt.month
+    data = data.drop(columns=['date'])
+    if data.isnull().values.any():
+        data = data.fillna(data.mean())  
+    X = data.drop(columns=['Appliances']).to_numpy() 
     y = data['Appliances'].to_numpy()
     
     return X, y
 
 def preprocess_data(trainx,valx,testx):
          
-    trainx['date'] = pd.to_datetime(trainx['date'], format='%m/%d/%y %H:%M')
+
+    trainx=trainx.astype(np.int64)
     
-    trainx['hour'] = trainx['date'].dt.hour
-    trainx['day_of_week'] = trainx['date'].dt.dayofweek
-    trainx['month'] = trainx['date'].dt.month
-    trainx = trainx.drop(columns=['date'])
-    
-    if trainx.isnull().values.any():
-        trainx = trainx.fillna(trainx.mean())  
-    trainx=trainx.to_numpy().astype(int64)
-    
+    valx=valx.astype(np.int64)
             
-            
-    valx['date'] = pd.to_datetime(valx['date'], format='%m/%d/%y %H:%M')
+    testx=testx.astype(np.int64)
     
-    valx['hour'] = valx['date'].dt.hour
-    valx['day_of_week'] = valx['date'].dt.dayofweek
-    valx['month'] = valx['date'].dt.month
-    valx = valx.drop(columns=['date'])
-    
-    if valx.isnull().values.any():
-        valx = valx.fillna(valx.mean()) 
-    valx=valx.to_numpy().astype(int)
-            
-    testx['date'] = pd.to_datetime(testx['date'], format='%m/%d/%y %H:%M')
-    testx['hour'] = testx['date'].dt.hour
-    testx['day_of_week'] = testx['date'].dt.dayofweek
-    testx['month'] = testx['date'].dt.month
-    testx = testx.drop(columns=['date'])
-      
-    if testx.isnull().values.any():
-        testx = testx.fillna(testx.mean()) 
-    testx=testx.to_numpy().astype(int)
-    
-    
-    trainx=np.array([17, 55, 7, 84, 17, 41, 18, 48, 17, 45, 6, 733, 92, 7, 63, 5])
-    return trainx,trainx,trainx
+    return trainx,valx,testx
 
 
 def eval_linear1(trainx, trainy, valx, valy, testx, testy):
@@ -192,17 +170,17 @@ def eval_lasso(trainx, trainy, valx, valy, testx, testy, alpha):
 if __name__ == '__main__':
     train_data,val_data,test_data=load_data()
     
+   
+    
     trainx, trainy = split_features_target(train_data)
     valx, valy = split_features_target(val_data)
     testx, testy = split_features_target(test_data)
+    
+    
     trainx,valx,testx=preprocess_data(trainx,valx,testx)
     
-    print("After preprocessing: ")
-    print("trainx[1]", trainx[1])
-    print("valx shape:", valx.shape)
-    print("testx shape:", testx.shape)
     
-    
+
     results1=eval_linear1(trainx, trainy, valx, valy, testx, testy)
     print(results1)
     
