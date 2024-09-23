@@ -17,22 +17,13 @@ def load_data():
 
 def split_features_target(data):
     
-    X = data.drop(columns=['Appliances']) 
+    X = data.drop(columns=['Appliances','date']) 
     y = data['Appliances'].to_numpy()
     
     return X, y
 
 def preprocess_data(trainx,valx,testx):
 
-    trainx['date'] = pd.to_datetime(trainx['date'], format='%m/%d/%y %H:%M')
-    
-    trainx['hour'] = trainx['date'].dt.hour
-    trainx['day_of_week'] = trainx['date'].dt.dayofweek
-    trainx['month'] = trainx['date'].dt.month
-    trainx = trainx.drop(columns=['date'])
-    
-    if trainx.isnull().values.any():
-        trainx = trainx.fillna(trainx.mean())  
     trainx=trainx.to_numpy().astype(int64)
          
     return trainx,trainx,trainx
