@@ -33,7 +33,7 @@ def preprocess_data(trainx,valx,testx):
     
     if trainx.isnull().values.any():
         trainx = trainx.fillna(trainx.mean())  
-    trainx=trainx.to_numpy().astype(int)
+    trainx=trainx.to_numpy().astype(int64)
     
             
             
