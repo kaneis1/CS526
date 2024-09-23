@@ -69,8 +69,6 @@ class ElasticNet:
             
             epoch_loss = loss(x, y, self.beta, self.el, self.alpha)
             loss_history.append({ep:epoch_loss})
-
-            print(epoch_loss)
         return loss_history
 
     def predict(self, x):
