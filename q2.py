@@ -24,7 +24,7 @@ def split_features_target(data):
 
 def preprocess_data(trainx,valx,testx):
 
-    trainx=trainx.astype(int64)
+    trainx=trainx.astype(int)
          
     return trainx,trainx,trainx
 
