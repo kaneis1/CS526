@@ -31,11 +31,42 @@ def split_features_target(data):
 
 def preprocess_data(trainx,valx,testx):
          
-
+    train_temp_in = trainx[:, [1, 3, 5, 7, 9, 13, 15, 17]]
+    train_temp_out = trainx[:, [11, 19, 24]]
+    train_humid_in = trainx[:, [2, 4, 6, 8, 10, 14, 16, 18]]
+    train_humid_out = trainx[:, [12, 21]]
+    train_avg_temp_out = np.mean(train_temp_out, axis=1).reshape(-1, 1)
+    train_avg_humid_out = np.mean(train_humid_out, axis=1).reshape(-1, 1)
+    train_avg_temp_in = np.mean(train_temp_in, axis=1).reshape(-1, 1)
+    train_avg_humid_in = np.mean(train_humid_in, axis=1).reshape(-1, 1)
+    train_remain = trainx[:, [0, 12, 20, 22, 23]]
+    trainx = np.hstack((train_remain, train_avg_temp_in, train_avg_humid_in, train_avg_temp_out, train_avg_humid_out))
     trainx=trainx.astype(np.int64)
     
+    
+    val_temp_in = valx[:, [1, 3, 5, 7, 9, 13, 15, 17]]
+    val_humid_in = valx[:, [2, 4, 6, 8, 10, 14, 16, 18]]
+    val_temp_out = valx[:, [11, 19, 24]]
+    val_humid_out = valx[:, [12, 21]]
+    val_avg_temp_out = np.mean(val_temp_out, axis=1).reshape(-1, 1)
+    val_avg_humid_out = np.mean(val_humid_out, axis=1).reshape(-1, 1)
+    val_avg_temp_in = np.mean(val_temp_in, axis=1).reshape(-1, 1)
+    val_avg_humid_in = np.mean(val_humid_in, axis=1).reshape(-1, 1)
+    val_remain = valx[:, [0, 12, 20, 22, 23]]
+    valx = np.hstack((val_remain, val_avg_temp_in, val_avg_humid_in, val_avg_temp_out, val_avg_humid_out))
     valx=valx.astype(np.int64)
             
+            
+    test_temp_in = testx[:, [1, 3, 5, 7, 9, 13, 15, 17]]
+    test_humid_in = testx[:, [2, 4, 6, 8, 10, 14, 16, 18]]
+    test_temp_out = testx[:, [11, 19, 24]]
+    test_humid_out = testx[:, [12, 21]]
+    test_avg_temp_out = np.mean(test_temp_out, axis=1).reshape(-1, 1)
+    test_avg_humid_out = np.mean(test_humid_out, axis=1).reshape(-1, 1)
+    test_avg_temp_in = np.mean(test_temp_in, axis=1).reshape(-1, 1)
+    test_avg_humid_in = np.mean(test_humid_in, axis=1).reshape(-1, 1)
+    test_remain = testx[:, [0, 12, 20, 22, 23]]
+    testx = np.hstack((test_remain, test_avg_temp_in, test_avg_humid_in, test_avg_temp_out, test_avg_humid_out))        
     testx=testx.astype(np.int64)
     
     return trainx,valx,testx
@@ -176,9 +207,7 @@ if __name__ == '__main__':
     valx, valy = split_features_target(val_data)
     testx, testy = split_features_target(test_data)
     
-    
     trainx,valx,testx=preprocess_data(trainx,valx,testx)
-    
     
 
     results1=eval_linear1(trainx, trainy, valx, valy, testx, testy)
