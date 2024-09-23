@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from sklearn.linear_model import LinearRegression, Ridge, Lasso
 from sklearn.metrics import mean_squared_error, r2_score
-
+from sklearn.preprocessing import StandardScaler
 train_path='HW1\energydata\energy_train.csv'
 val_path='HW1\energydata\energy_val.csv'
 test_path='HW1\energydata\energy_test.csv'
@@ -47,15 +47,16 @@ def feature_extraction(trainx):
 
 def preprocess_data(trainx,valx,testx):
      
-    
+    scaler = StandardScaler()
          
     trainx=trainx.astype(np.int64)
+    trainx=scaler.fit_transform(trainx)
     
     valx=valx.astype(np.int64)
-            
+    valx=scaler.fit_transform(valx)        
             
     testx=testx.astype(np.int64)
-    
+    testx=scaler.fit_transform(testx)
     return trainx,valx,testx
 
 
@@ -82,12 +83,12 @@ def eval_linear1(trainx, trainy, valx, valy, testx, testy):
     
     
     results = {
-        'train-rmse': train_rmse,
-        'train-r2': train_r2,
-        'val-rmse': val_rmse,
-        'val-r2': val_r2,
-        'test-rmse': test_rmse,
-        'test-r2': test_r2
+        'train-rmse': round(train_rmse, 2),
+        'train-r2': round(train_r2, 2),
+        'val-rmse': round(val_rmse, 2),
+        'val-r2': round(val_r2,2),
+        'test-rmse': round(test_rmse,2),
+        'test-r2': round(test_r2,2)
     }
     
     return results
@@ -114,12 +115,12 @@ def eval_linear2(trainx, trainy, valx, valy, testx, testy):
     test_r2 = r2_score(testy, test_pred)
     
     results = {
-        'train-rmse': train_rmse,
-        'train-r2': train_r2,
-        'val-rmse': val_rmse,
-        'val-r2': val_r2,
-        'test-rmse': test_rmse,
-        'test-r2': test_r2
+        'train-rmse': round(train_rmse, 2),
+        'train-r2': round(train_r2, 2),
+        'val-rmse': round(val_rmse, 2),
+        'val-r2': round(val_r2,2),
+        'test-rmse': round(test_rmse,2),
+        'test-r2': round(test_r2,2)
     }
     
     return results
@@ -145,12 +146,12 @@ def eval_ridge(trainx, trainy, valx, valy, testx, testy, alpha):
     test_r2 = r2_score(testy, test_pred)
     
     results = {
-        'train-rmse': train_rmse,
-        'train-r2': train_r2,
-        'val-rmse': val_rmse,
-        'val-r2': val_r2,
-        'test-rmse': test_rmse,
-        'test-r2': test_r2
+        'train-rmse': round(train_rmse, 2),
+        'train-r2': round(train_r2, 2),
+        'val-rmse': round(val_rmse, 2),
+        'val-r2': round(val_r2,2),
+        'test-rmse': round(test_rmse,2),
+        'test-r2': round(test_r2,2)
     }
     
     return results
@@ -175,12 +176,12 @@ def eval_lasso(trainx, trainy, valx, valy, testx, testy, alpha):
     test_r2 = r2_score(testy, test_pred)
     
     results = {
-        'train-rmse': train_rmse,
-        'train-r2': train_r2,
-        'val-rmse': val_rmse,
-        'val-r2': val_r2,
-        'test-rmse': test_rmse,
-        'test-r2': test_r2
+        'train-rmse': round(train_rmse, 2),
+        'train-r2': round(train_r2, 2),
+        'val-rmse': round(val_rmse, 2),
+        'val-r2': round(val_r2,2),
+        'test-rmse': round(test_rmse,2),
+        'test-r2': round(test_r2,2)
     }
     
     return results
@@ -203,9 +204,10 @@ if __name__ == '__main__':
     results2=eval_linear2(trainx, trainy, valx, valy, testx, testy)
     print(results2)
     
-    results_ridge=eval_ridge(trainx, trainy, valx, valy, testx, testy, alpha=10.0)
-    print(results_ridge)
+    # for x in range(0,100,5):
+    #     results_ridge=eval_ridge(trainx, trainy, valx, valy, testx, testy, alpha=x/10)
+    #     print('results_ridge alpha=',x/10,results_ridge)
+    #     results_lasso=eval_lasso(trainx, trainy, valx, valy, testx, testy, alpha=x/10)
+    #     print('results_lasso alpha=',x/10,results_lasso)
     
-    results_lasso=eval_lasso(trainx, trainy, valx, valy, testx, testy, alpha=2.0)
-    print(results_lasso)
     
