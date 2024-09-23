@@ -26,8 +26,7 @@ def preprocess_data(trainx,valx,testx):
          
     trainx = trainx.drop(columns=['date'])
     
-    if trainx.isnull().values.any():
-        trainx = trainx.fillna(trainx.mean())  
+    
     trainx=trainx.to_numpy().astype(int)
     
             
