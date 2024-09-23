@@ -27,7 +27,7 @@ def preprocess_data(trainx,valx,testx):
     trainx = trainx.drop(columns=['date'])
     
     
-    trainx=trainx.to_numpy().astype(int)
+    trainx=trainx.to_numpy().astype(int64)
     
             
             
