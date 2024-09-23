@@ -30,6 +30,8 @@ def split_features_target(data):
     return X, y
 
 def preprocess_data(trainx,valx,testx):
+     
+    
          
     train_temp_in = trainx[:, [1, 3, 5, 7, 9, 13, 15, 17]]
     train_temp_out = trainx[:, [11, 19, 24]]
@@ -39,7 +41,8 @@ def preprocess_data(trainx,valx,testx):
     train_avg_humid_out = np.mean(train_humid_out, axis=1).reshape(-1, 1)
     train_avg_temp_in = np.mean(train_temp_in, axis=1).reshape(-1, 1)
     train_avg_humid_in = np.mean(train_humid_in, axis=1).reshape(-1, 1)
-    train_remain = trainx[:, [0, 12, 20, 22, 23]]
+    trainx[:,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21,24]]=0
+    train_remain = trainx[:, [0, 1, 2, 3, 4, 5, 6, 12, 20, 22, 23]]
     trainx = np.hstack((train_remain, train_avg_temp_in, train_avg_humid_in, train_avg_temp_out, train_avg_humid_out))
     trainx=trainx.astype(np.int64)
     
@@ -52,7 +55,8 @@ def preprocess_data(trainx,valx,testx):
     val_avg_humid_out = np.mean(val_humid_out, axis=1).reshape(-1, 1)
     val_avg_temp_in = np.mean(val_temp_in, axis=1).reshape(-1, 1)
     val_avg_humid_in = np.mean(val_humid_in, axis=1).reshape(-1, 1)
-    val_remain = valx[:, [0, 12, 20, 22, 23]]
+    valx[:,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21,24]]=0
+    val_remain = valx[:, [0, 1, 2, 3, 4, 5, 6, 12, 20, 22, 23]]
     valx = np.hstack((val_remain, val_avg_temp_in, val_avg_humid_in, val_avg_temp_out, val_avg_humid_out))
     valx=valx.astype(np.int64)
             
@@ -65,7 +69,8 @@ def preprocess_data(trainx,valx,testx):
     test_avg_humid_out = np.mean(test_humid_out, axis=1).reshape(-1, 1)
     test_avg_temp_in = np.mean(test_temp_in, axis=1).reshape(-1, 1)
     test_avg_humid_in = np.mean(test_humid_in, axis=1).reshape(-1, 1)
-    test_remain = testx[:, [0, 12, 20, 22, 23]]
+    testx[:,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21,24]]=0
+    test_remain = testx[:, [0, 1, 2, 3, 4, 5, 6, 12, 20, 22, 23]]
     testx = np.hstack((test_remain, test_avg_temp_in, test_avg_humid_in, test_avg_temp_out, test_avg_humid_out))        
     testx=testx.astype(np.int64)
     
