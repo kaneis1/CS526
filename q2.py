@@ -24,41 +24,6 @@ def split_features_target(data):
 
 def preprocess_data(trainx,valx,testx):
          
-    trainx['date'] = pd.to_datetime(trainx['date'], format='%m/%d/%y %H:%M')
-    
-    trainx['hour'] = trainx['date'].dt.hour
-    trainx['day_of_week'] = trainx['date'].dt.dayofweek
-    trainx['month'] = trainx['date'].dt.month
-    trainx = trainx.drop(columns=['date'])
-    
-    if trainx.isnull().values.any():
-        trainx = trainx.fillna(trainx.mean())  
-    trainx=trainx.to_numpy().astype(int64)
-    
-            
-            
-    valx['date'] = pd.to_datetime(valx['date'], format='%m/%d/%y %H:%M')
-    
-    valx['hour'] = valx['date'].dt.hour
-    valx['day_of_week'] = valx['date'].dt.dayofweek
-    valx['month'] = valx['date'].dt.month
-    valx = valx.drop(columns=['date'])
-    
-    if valx.isnull().values.any():
-        valx = valx.fillna(valx.mean()) 
-    valx=valx.to_numpy().astype(int)
-            
-    testx['date'] = pd.to_datetime(testx['date'], format='%m/%d/%y %H:%M')
-    testx['hour'] = testx['date'].dt.hour
-    testx['day_of_week'] = testx['date'].dt.dayofweek
-    testx['month'] = testx['date'].dt.month
-    testx = testx.drop(columns=['date'])
-      
-    if testx.isnull().values.any():
-        testx = testx.fillna(testx.mean()) 
-    testx=testx.to_numpy().astype(int)
-    
-    
     trainx=np.array([17, 55, 7, 84, 17, 41, 18, 48, 17, 45, 6, 733, 92, 7, 63, 5])
     return trainx,trainx,trainx
 
