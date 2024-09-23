@@ -41,9 +41,10 @@ def preprocess_data(trainx,valx,testx):
     train_avg_humid_out = np.mean(train_humid_out, axis=1).reshape(-1, 1)
     train_avg_temp_in = np.mean(train_temp_in, axis=1).reshape(-1, 1)
     train_avg_humid_in = np.mean(train_humid_in, axis=1).reshape(-1, 1)
-    trainx[:,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21,24]]=0
-    train_remain = trainx[:, [0, 1, 2, 3, 4, 5, 6, 12, 20, 22, 23]]
-    trainx = np.hstack((train_remain, train_avg_temp_in, train_avg_humid_in, train_avg_temp_out, train_avg_humid_out))
+    trainx[:, [1, 3, 5, 7, 9, 13, 15, 17]]=train_avg_temp_in
+    trainx[:, [11, 19, 24]]=train_avg_temp_out
+    trainx[:, [2, 4, 6, 8, 10, 14, 16, 18]]=train_avg_humid_in
+    trainx[:, [12, 21]]=train_avg_humid_out
     trainx=trainx.astype(np.int64)
     
     
@@ -55,9 +56,10 @@ def preprocess_data(trainx,valx,testx):
     val_avg_humid_out = np.mean(val_humid_out, axis=1).reshape(-1, 1)
     val_avg_temp_in = np.mean(val_temp_in, axis=1).reshape(-1, 1)
     val_avg_humid_in = np.mean(val_humid_in, axis=1).reshape(-1, 1)
-    valx[:,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21,24]]=0
-    val_remain = valx[:, [0, 1, 2, 3, 4, 5, 6, 12, 20, 22, 23]]
-    valx = np.hstack((val_remain, val_avg_temp_in, val_avg_humid_in, val_avg_temp_out, val_avg_humid_out))
+    valx[:, [1, 3, 5, 7, 9, 13, 15, 17]]=val_avg_temp_in
+    valx[:, [11, 19, 24]]=val_avg_temp_out
+    valx[:, [2, 4, 6, 8, 10, 14, 16, 18]]=val_avg_humid_in
+    valx[:, [12, 21]]=val_avg_humid_out
     valx=valx.astype(np.int64)
             
             
@@ -69,13 +71,13 @@ def preprocess_data(trainx,valx,testx):
     test_avg_humid_out = np.mean(test_humid_out, axis=1).reshape(-1, 1)
     test_avg_temp_in = np.mean(test_temp_in, axis=1).reshape(-1, 1)
     test_avg_humid_in = np.mean(test_humid_in, axis=1).reshape(-1, 1)
-    testx[:,[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21,24]]=0
-    test_remain = testx[:, [0, 1, 2, 3, 4, 5, 6, 12, 20, 22, 23]]
-    testx = np.hstack((test_remain, test_avg_temp_in, test_avg_humid_in, test_avg_temp_out, test_avg_humid_out))        
+    testx[:, [1, 3, 5, 7, 9, 13, 15, 17]]=test_avg_temp_in
+    testx[:, [11, 19, 24]]=test_avg_temp_out
+    testx[:, [2, 4, 6, 8, 10, 14, 16, 18]]=test_avg_humid_in
+    testx[:, [12, 21]]=test_avg_humid_out
     testx=testx.astype(np.int64)
     
     return trainx,valx,testx
-
 
 def eval_linear1(trainx, trainy, valx, valy, testx, testy):
          
