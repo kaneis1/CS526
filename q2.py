@@ -23,8 +23,18 @@ def split_features_target(data):
     return X, y
 
 def preprocess_data(trainx,valx,testx):
+
+    trainx['date'] = pd.to_datetime(trainx['date'], format='%m/%d/%y %H:%M')
+    
+    trainx['hour'] = trainx['date'].dt.hour
+    trainx['day_of_week'] = trainx['date'].dt.dayofweek
+    trainx['month'] = trainx['date'].dt.month
+    trainx = trainx.drop(columns=['date'])
+    
+    if trainx.isnull().values.any():
+        trainx = trainx.fillna(trainx.mean())  
+    trainx=trainx.to_numpy().astype(int64)
          
-    trainx=np.array([17, 55, 7, 84, 17, 41, 18, 48, 17, 45, 6, 733, 92, 7, 63, 5])
     return trainx,trainx,trainx
 
 
