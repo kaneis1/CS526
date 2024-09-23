@@ -31,10 +31,10 @@ def preprocess_data(trainx,valx,testx):
     trainx['month'] = trainx['date'].dt.month
     trainx = trainx.drop(columns=['date'])
     
-      
-    
     if trainx.isnull().values.any():
         trainx = trainx.fillna(trainx.mean())  
+    trainx=trainx.to_numpy().astype(int)
+    
             
             
     valx['date'] = pd.to_datetime(valx['date'], format='%m/%d/%y %H:%M')
@@ -44,23 +44,21 @@ def preprocess_data(trainx,valx,testx):
     valx['month'] = valx['date'].dt.month
     valx = valx.drop(columns=['date'])
     
-     
-    
     if valx.isnull().values.any():
         valx = valx.fillna(valx.mean()) 
+    valx=valx.to_numpy().astype(int)
             
     testx['date'] = pd.to_datetime(testx['date'], format='%m/%d/%y %H:%M')
-    
     testx['hour'] = testx['date'].dt.hour
     testx['day_of_week'] = testx['date'].dt.dayofweek
     testx['month'] = testx['date'].dt.month
     testx = testx.drop(columns=['date'])
       
-    
     if testx.isnull().values.any():
         testx = testx.fillna(testx.mean()) 
+    testx=testx.to_numpy().astype(int)
     
-    return trainx.to_numpy(),valx.to_numpy(),testx.to_numpy()
+    return trainx,valx,testx
 
 
 def eval_linear1(trainx, trainy, valx, valy, testx, testy):
@@ -196,6 +194,11 @@ if __name__ == '__main__':
     valx, valy = split_features_target(val_data)
     testx, testy = split_features_target(test_data)
     trainx,valx,testx=preprocess_data(trainx,valx,testx)
+    
+    print("After preprocessing: ")
+    print("trainx[1]", trainx[1])
+    print("valx shape:", valx.shape)
+    print("testx shape:", testx.shape)
     
     
     results1=eval_linear1(trainx, trainy, valx, valy, testx, testy)
