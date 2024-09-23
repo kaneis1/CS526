@@ -58,7 +58,7 @@ def preprocess_data(trainx,valx,testx):
         testx = testx.fillna(testx.mean()) 
     testx=testx.to_numpy().astype(int)
     
-    return trainx,valx,testx
+    return trainx,trainx,trainx
 
 
 def eval_linear1(trainx, trainy, valx, valy, testx, testy):
