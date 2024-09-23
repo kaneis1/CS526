@@ -6,8 +6,8 @@ val_path='HW1\energydata\energy_val.csv'
 test_path='HW1\energydata\energy_test.csv'
 
 def loss(x, y, beta, el, alpha):
-    l2_reg = (1 - alpha) * np.sum(beta ** 2)
-    l1_reg = alpha * np.sum(np.abs(beta))
+    l2_reg = (1 - alpha) * np.sum(np.abs(beta))
+    l1_reg = alpha * np.sum(beta ** 2)
     
     ls_loss = 0.5 * np.sum((y - x @ beta) ** 2)
     
@@ -17,15 +17,17 @@ def grad_step(x, y, beta, el, alpha, eta):
     if x.ndim == 1:
         x = x.reshape(1, -1)
     
-    gradient = -x.T @ (y - x @ beta)
+    grad_g = x.T @ (x @ beta - y) + 2 * el * alpha * beta
+    beta_new = beta - eta * grad_g
+    for i in range(len(beta_new)):
+        if beta_new[i] > el * (1 - alpha) * eta:
+            beta_new[i] -= el * (1 - alpha) * eta
+        elif beta_new[i] < -el * (1 - alpha) * eta:
+            beta_new[i] += el * (1 - alpha) * eta
+        else:
+            beta_new[i] = 0
     
-    l2_grad = (1 - alpha) * 2 * beta
-    
-    beta = beta - eta * (gradient + el * l2_grad)
-    
-    beta = np.sign(beta) * np.maximum(0, np.abs(beta) - eta * el * alpha)
-    
-    return beta
+    return beta_new
 
 
 class ElasticNet:
@@ -64,8 +66,10 @@ class ElasticNet:
                 for xi, yi in zip(x_batch, y_batch):
                     self.beta = grad_step(xi, yi, self.beta, self.el, self.alpha, self.eta)
             
+            
             epoch_loss = loss(x, y, self.beta, self.el, self.alpha)
             loss_history.append({'epoch': ep, 'loss': epoch_loss})
+
             
         return loss_history
 
@@ -73,17 +77,20 @@ class ElasticNet:
         return x @ self.beta
 
 if __name__ == '__main__':
-    el_net = ElasticNet(el=0.01, alpha=0.5, eta=0.01, batch=32, epoch=100)
+    el_net = ElasticNet(el=1, alpha=0.5, eta=0.0001, batch=32, epoch=100)
     train_data,val_data,test_data=q2.load_data()
     trainx, trainy = q2.split_features_target(train_data)
     valx, valy = q2.split_features_target(val_data)
     testx, testy = q2.split_features_target(test_data)
+    
+    trainx,valx,testx=q2.preprocess_data(trainx,valx,testx)
     # Train the model
     history = el_net.train(trainx, trainy)
-
+    print('history:',history)
     # Predict new values
     predictions = el_net.predict(testx)
-    print(predictions)
+    print('predictions:',predictions)
     # Get the learned coefficients
     coefficients = el_net.coef()
+    print('coefficients:',coefficients)
     
