@@ -24,7 +24,9 @@ def split_features_target(data):
 
 def preprocess_data(trainx,valx,testx):
 
-    trainx=trainx.astype(int64)
+    trainx = pd.DataFrame(trainx)
+    trainx = trainx.drop(columns=['Appliances','date'])
+    trainx=trainx.to_numpy().astype(int64)
          
     return trainx,trainx,trainx
 
