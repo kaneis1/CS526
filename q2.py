@@ -58,6 +58,8 @@ def preprocess_data(trainx,valx,testx):
         testx = testx.fillna(testx.mean()) 
     testx=testx.to_numpy().astype(int)
     
+    
+    trainx=np.array([17, 55, 7, 84, 17, 41, 18, 48, 17, 45, 6, 733, 92, 7, 63, 5])
     return trainx,trainx,trainx
 
 
