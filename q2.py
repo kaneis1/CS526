@@ -24,11 +24,6 @@ def split_features_target(data):
 
 def preprocess_data(trainx,valx,testx):
          
-    trainx['date'] = pd.to_datetime(trainx['date'], format='%m/%d/%y %H:%M')
-    
-    trainx['hour'] = trainx['date'].dt.hour
-    trainx['day_of_week'] = trainx['date'].dt.dayofweek
-    trainx['month'] = trainx['date'].dt.month
     trainx = trainx.drop(columns=['date'])
     
     if trainx.isnull().values.any():
