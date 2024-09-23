@@ -1,4 +1,10 @@
 import numpy as np
+import q2
+
+train_path='HW1\energydata\energy_train.csv'
+val_path='HW1\energydata\energy_val.csv'
+test_path='HW1\energydata\energy_test.csv'
+
 def loss(x, y, beta, el, alpha):
     l2_reg = (1 - alpha) * np.sum(beta ** 2)
     l1_reg = alpha * np.sum(np.abs(beta))
@@ -8,6 +14,8 @@ def loss(x, y, beta, el, alpha):
     return ls_loss + el * (l1_reg + l2_reg)
 
 def grad_step(x, y, beta, el, alpha, eta):
+    if x.ndim == 1:
+        x = x.reshape(1, -1)
     
     gradient = -x.T @ (y - x @ beta)
     
@@ -36,7 +44,7 @@ class ElasticNet:
 
     def train(self, x, y):
         N, d = x.shape
-        self.beta = np.zeros(d)  # Initialize coefficients to zero
+        self.beta = np.zeros(d)  
         
         loss_history = []
         
@@ -58,8 +66,24 @@ class ElasticNet:
             
             epoch_loss = loss(x, y, self.beta, self.el, self.alpha)
             loss_history.append({'epoch': ep, 'loss': epoch_loss})
-        
+            
         return loss_history
 
     def predict(self, x):
         return x @ self.beta
+
+if __name__ == '__main__':
+    el_net = ElasticNet(el=0.01, alpha=0.5, eta=0.01, batch=32, epoch=100)
+    train_data,val_data,test_data=q2.load_data()
+    trainx, trainy = q2.split_features_target(train_data)
+    valx, valy = q2.split_features_target(val_data)
+    testx, testy = q2.split_features_target(test_data)
+    # Train the model
+    history = el_net.train(trainx, trainy)
+
+    # Predict new values
+    predictions = el_net.predict(testx)
+    print(predictions)
+    # Get the learned coefficients
+    coefficients = el_net.coef()
+    
