@@ -48,7 +48,7 @@ class ElasticNet:
         N, d = x.shape
         self.beta = np.zeros(d)  
         
-        loss_history = []
+        loss_history = {}
         
         
         for ep in range(self.epoch):
@@ -68,14 +68,16 @@ class ElasticNet:
             
             
             epoch_loss = loss(x, y, self.beta, self.el, self.alpha)
-            loss_history.append({ep:epoch_loss})
+            loss_history[ep+1]=epoch_loss
+
+            
         return loss_history
 
     def predict(self, x):
         return x @ self.beta
 
 if __name__ == '__main__':
-    el_net = ElasticNet(el=1, alpha=0.5, eta=0.0001, batch=32, epoch=100)
+    el_net = ElasticNet(el=6, alpha=0.5, eta=0.0001, batch=32, epoch=100)
     train_data,val_data,test_data=q2.load_data()
     trainx, trainy = q2.split_features_target(train_data)
     valx, valy = q2.split_features_target(val_data)
