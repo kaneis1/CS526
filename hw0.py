@@ -19,7 +19,7 @@ def troublemakers(n):
     for _ in range(n):
         
         N[1]+=0.35*N[1]
-        N[0]-=0.35*N[0]
+        N[0]-=0.35*N[1]
         N[0]+=N[1]*0.2
         N[1]-=0.2*N[1]
     return N
