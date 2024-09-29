@@ -18,7 +18,7 @@ def troublemakers(n):
     N=np.array([1.0,1.0],dtype=np.float64)
     for _ in range(n):
         
-        N[1]+=0.35*N[0]
+        N[1]+=0.35*N[1]
         N[0]-=0.35*N[0]
         N[0]+=N[1]*0.2
         N[1]-=0.2*N[1]
